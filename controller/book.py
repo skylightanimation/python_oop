@@ -10,16 +10,10 @@ sys.path.append(model_path)
 import m_book
 from m_book import *
 
-# view_path = 'view'
-# sys.path.append(view_path)
-# import v_action
-# from v_action import *
-
 class Book(M_book):
 
 	__helper = Helper()
 	__book = M_book()
-	# __v_action = Action()
 
 	def add(self):
 		nameBook = input("  +Input nama buku : ")
