@@ -26,7 +26,7 @@ class Borrow(M_member, M_book):
 	def do(self, keyMember, dataMember, keyBook, dataBook):
 
 		if keyMember != '' and keyBook:
-
+			# insert borrow
 			getDate = datetime.datetime.now()
 
 			date = getDate.strftime('%Y-%m-%d')
@@ -34,7 +34,7 @@ class Borrow(M_member, M_book):
 
 			dataInsert = {}
 			key = keyBook+idDate
-			dataInsert['id'] = idDate
+			dataInsert['id'] = keyBook
 			dataInsert['title'] = dataBook['title']
 			dataInsert['author'] = dataBook['author']
 			dataInsert['date_out'] = date
@@ -43,6 +43,14 @@ class Borrow(M_member, M_book):
 
 			dataMember['books'][key] = dataInsert
 			dataUpdate = dataMember
+			# insert borrow
+
+			# update book
+			dataBook['stock'] =  str(int(dataBook['stock'])-1)
+			dataBook['used'] =  str(int(dataBook['used'])+1)
+
+			self.__book.update(dataBook, keyBook)
+			# update book
 
 			self.__member.update(dataUpdate, keyMember)
 
@@ -53,11 +61,15 @@ class Borrow(M_member, M_book):
 	def re(self, keyMember, dataMember, keyBorrow):
 
 		if keyMember != '' and keyBorrow != '':
+
+			# update borrow
 			getDate = datetime.datetime.now()
 			date = getDate.strftime('%Y-%m-%d')
 
 			dataMember['books'][keyBorrow]['status'] = 'true'
 			dataMember['books'][keyBorrow]['date_in'] = date
+			keyBook = dataMember['books'][keyBorrow]['id']
+
 			idMember = str(dataMember['id'])
 			nameMember = dataMember['name']
 			bookMember = dataMember['books']
@@ -69,6 +81,17 @@ class Borrow(M_member, M_book):
 			dataUpdate['name'] = nameMember
 			dataUpdate['books'] = bookMember
 
+			# update borrow
+
+			# update book
+			getBook = self.__book.get()
+			getBook[keyBook]['stock'] =  str(int(getBook[keyBook]['stock'])+1)
+			getBook[keyBook]['used'] =  str(int(getBook[keyBook]['used'])-1)
+			dataBook = getBook[keyBook]
+
+			self.__book.update(dataBook, keyBook)
+			# update book
+
 			self.__member.update(dataUpdate, keyMember)
 
 			return 'true'
@@ -76,8 +99,6 @@ class Borrow(M_member, M_book):
 		else:
 			return 'false'
 
-	def test(self, data):
-		pass
 
 # className = Borrow()
 # className.test()

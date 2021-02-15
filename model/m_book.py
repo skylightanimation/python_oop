@@ -22,13 +22,8 @@ class M_book(IGUD, Helper):
 
 
 	def update(self, data, key):
-		print(data)
-		print(key)
 		dataTemp = getattr(self, '_'+self.__table)
-		print(dataTemp)
-
 		dataTemp[key] = data
-		print(dataTemp[key])
 		setattr(self, '_'+self.__table, dataTemp)
 
 

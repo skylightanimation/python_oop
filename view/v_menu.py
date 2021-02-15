@@ -33,6 +33,7 @@ class Menu():
 		for i in self.__featuresOut:
 			number = 0
 			print(str(number)+'. '+str(i))
+
 		if name == 'Pinjam':
 			for i in self.__featuresBorrow:
 				number += 1
