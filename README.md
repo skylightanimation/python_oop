@@ -1,5 +1,6 @@
 # python_oop
-A simple CRUD implementing OOP and MVC, using dictionary as temporary database
+A simple CRUD implemented OOP/MVC, using dictionary as temporary database for Library Information System in (console / terminal)
+
 
 Programming Language :<br>
 	Python 3.7.1
