@@ -2,11 +2,11 @@ import	os
 
 class Menu():
 
-	__featuresMain 	= ['Buku', 'Member', 'Pinjam']
-	__featuresCrud 	= ['Daftar', 'Tambah', 'Update', 'Delete']
+	__featuresMain 	= ['Books', 'Members', 'Borrow']
+	__featuresCrud 	= ['List', 'Add', 'Edit', 'Remove']
 	__featuresOut 	= ['MAINMENU']
 	__featuresQuit 	= ['Quit']
-	__featuresBorrow= ['Meminjam', 'Mengembalikan']
+	__featuresBorrow= ['Borrow', 'Return']
 
 	def __init__(self, title):
 		if title == 'main':
@@ -44,7 +44,7 @@ class Menu():
 
 	def title(self, name=None):
 		if name != None:
-			title = ' SUB MENU : '+name
+			title = ' SUB MENU : '+str(name)
 			print('---------------------')
 			print(title)
 			print('---------------------')

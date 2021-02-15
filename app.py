@@ -83,12 +83,11 @@ class App(Menu, Action, Form, Table):
                 self.clear_screen()
                 menu = Menu('Member')
                 self.__member()
-                # self.__switch('Member')
 
             elif option == 3:
                 self.clear_screen()
                 menu = Menu('Pinjam')
-                # self.__switch('Pinjam')
+                self.__borrow()
 
             else:
                 message = 'option not define!!!'
@@ -98,7 +97,7 @@ class App(Menu, Action, Form, Table):
     def alert(self, message, option):
         print(message)
         # print(option)
-        redirect = input('"ENTER" utk kembali ke MAIN MENU, atau "y" utk stay.. ')
+        redirect = input('press "ENTER" for MAIN MENU, atau "y" for stay.. ')
         if redirect == "y" or redirect == "Y":
             # self.clear_screen()
             menu = Menu(option)
@@ -115,7 +114,7 @@ class App(Menu, Action, Form, Table):
             elif option == 'Pinjam':
                 self.clear_screen()
                 menu = Menu('Pinjam')
-                self.__switch('Pinjam')
+                self.__borrow()
 
 
         else:
@@ -315,10 +314,10 @@ class App(Menu, Action, Form, Table):
 
             if doAction == 'true':
                 message = 'borrow success...'
-                menu = self.alert(message, 'Member')
+                menu = self.alert(message, 'Pinjam')
             else:
                 message = 'borrow failed!!!'
-                menu = self.alert(message, 'Member')
+                menu = self.alert(message, 'Pinjam')
 
 
 
@@ -333,25 +332,30 @@ class App(Menu, Action, Form, Table):
             self.title("Borrow <return>")
             booksMember = dataMember[idMember]['books']
 
-            if isinstance(booksMember, dict):
+            if isinstance(booksMember, dict) and len(booksMember) > 0 :
                 Table(booksMember)
 
                 idBorrow = self.input_k(' Input "ID" Borrow : ')
-                statusBorrow = dataMember[idMember]['books'][idBorrow]['status']
-                if idBorrow in booksMember and statusBorrow == 'false':
-                    doAction = self.borrow.re()
-                    if doAction == 'true':
-                        message = 'return success...'
-                        menu = self.alert(message, 'Pinjam')
+                
+                if idBorrow in booksMember:
+                    statusBorrow = dataMember[idMember]['books'][idBorrow]['status']
+                    if statusBorrow == 'false':
+                        doAction = self.borrow.re(idMember, dataMember[idMember], idBorrow)
+                        if doAction == 'true':
+                            message = 'return success...'
+                            menu = self.alert(message, 'Pinjam')
+                        else:
+                            message = 'return failed!!!'
+                            menu = self.alert(message, 'Pinjam')
                     else:
-                        message = 'return failed!!!'
-                        menu = self.alert(message, 'Pinjam')                
+                        message = 'book not available!!!'
+                        menu = self.alert(message, 'Pinjam')
                 else:
                     message = 'book not found!!!'
-                    menu = self.alert(message, 0)
+                    menu = self.alert(message, 'Pinjam')
             else:
-                message = 'book not found!!!'
-                menu = self.alert(message, 0)
+                message = 'Books not found!!!'
+                menu = self.alert(message, 'Pinjam')
 
         else:
             message = 'access not found!!!'

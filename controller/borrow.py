@@ -25,7 +25,7 @@ class Borrow(M_member, M_book):
 
 	def do(self, keyMember, dataMember, keyBook, dataBook):
 
-		if keyMember != '':
+		if keyMember != '' and keyBook:
 
 			getDate = datetime.datetime.now()
 
@@ -50,30 +50,28 @@ class Borrow(M_member, M_book):
 		else:
 			return 'false'
 
-	def re(self):
-		key = input("Input 'ID' Member  : ")
-		data = self.__member.get()
-		if key in data:
-			idMember = str(data[key]['id'])
-			nameMember = data[key]['name']
-			bookMember = data[key]['books']
+	def re(self, keyMember, dataMember, keyBorrow):
 
-			print('Name : '+nameMember)
+		if keyMember != '' and keyBorrow != '':
+			getDate = datetime.datetime.now()
+			date = getDate.strftime('%Y-%m-%d')
 
-			nameMemberUpdate = input("  +Update nama member : ")
+			dataMember['books'][keyBorrow]['status'] = 'true'
+			dataMember['books'][keyBorrow]['date_in'] = date
+			idMember = str(dataMember['id'])
+			nameMember = dataMember['name']
+			bookMember = dataMember['books']
 
-			if nameMemberUpdate != '':
+
 				
-				dataUpdate = {}
-				dataUpdate['id'] = str(idMember)
-				dataUpdate['name'] = nameMemberUpdate
-				dataUpdate['books'] = bookMember
+			dataUpdate = {}
+			dataUpdate['id'] = str(idMember)
+			dataUpdate['name'] = nameMember
+			dataUpdate['books'] = bookMember
 
-				self.__member.update(dataUpdate, key)
+			self.__member.update(dataUpdate, keyMember)
 
-				return 'true'
-			else:
-				return 'false'
+			return 'true'
 
 		else:
 			return 'false'
