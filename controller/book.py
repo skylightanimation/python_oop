@@ -15,11 +15,11 @@ class Book(M_book):
 	__helper = Helper()
 	__book = M_book()
 
-	def add(self):
-		nameBook = input("  +Input nama buku : ")
-		yearBook = input("  +Input tahun buku : ")
-		nameAuthor = input("  +Input nama author : ")
-		stockBook = input("  +Input jumlah buku : ")
+	def add(self, data):
+		nameBook = data['title']
+		yearBook = data['year']
+		nameAuthor = data['author']
+		stockBook = data['stock']
 
 		if nameBook != '' and yearBook != '' and nameAuthor != '' and stockBook != '':
 			
@@ -40,24 +40,23 @@ class Book(M_book):
 			return 'false'	  
 
 
-	def update(self):
-		key = input("Input 'ID' buku  : ")
-		data = self.__book.get()
-		if key in data:
-			idBook = str(data[key]['id'])
-			nameBook = data[key]['title']
-			yearBook = data[key]['year']
-			authorBook = data[key]['author']
-			stockBook = data[key]['stock']
-			usedBook = data[key]['used']
+	def update(self, key, data):
+
+		if key != '' and data != '':
+			idBook = str(data['id'])
+			nameBook = data['title']
+			yearBook = data['year']
+			authorBook = data['author']
+			stockBook = data['stock']
+			usedBook = data['used']
 
 			print('Name : '+nameBook)
 			print('Year : '+yearBook)
 			print('Author : '+authorBook)
 
-			nameBookUpdate = input("  +Update nama buku : ")
-			yearBookUpdate = input("  +Update tahun buku : ")
-			nameAuthorUpdate = input("  +Update nama author : ")
+			nameBookUpdate = input("  +Update book name  : ")
+			yearBookUpdate = input("  +Update book year : ")
+			nameAuthorUpdate = input("  +Update author name : ")
 
 			if nameBookUpdate != '' and yearBookUpdate != '' and nameAuthorUpdate != '':
 				
@@ -79,8 +78,7 @@ class Book(M_book):
 			return 'false'
 
 
-	def delete(self):
-		key = input("Input 'ID' buku  : ")
+	def delete(self, key):
 		data = self.__book.get()
 		if key in data:
 			self.__book.delete(key)
@@ -91,41 +89,13 @@ class Book(M_book):
 
 	def get(self, key = None):
 		if key != None:
-			# print(key)
 			data = self.__book.get(key)
-			# print(data)
-			print(" ID	   | NAME		 | YEAR	| AUTHOR		  | AVAILABLE	| BORROWED 	")
-
-			keyBook = key
-			idBook = int(data['id'])
-			nameBook = data['title']
-			yearBook = data['year']
-			authorBook = data['author']
-			stockBook = data['stock']
-			usedBook = data['used']
-			total = int(stockBook) + int(usedBook)
-			print(keyBook+'   | '+nameBook+'	| '+yearBook+'  | '+authorBook+'	| '+stockBook+'		| '+usedBook)
-			message = 'Jumlah Buku : '+str(total)
+			return data;
 
 		else:
 			data = self.__book.get()
 			if len(data) == 0:
-				message = 'data buku kosong...'
+				message = 'book empty...'
 				return message
 			else:
-				print(" ID	   | NAME		 | YEAR	| AUTHOR		  | AVAILABLE	| BORROWED 	")
-				totalAvailable = 0
-				totalBorrowed = 0
-				for key in data:
-					keyBook = key
-					idBook = int(data[key]['id'])
-					nameBook = data[key]['title']
-					yearBook = data[key]['year']
-					authorBook = data[key]['author']
-					stockBook = data[key]['stock']
-					usedBook = data[key]['used']
-					totalAvailable += int(stockBook)
-					totalBorrowed += int(usedBook)
-					print(keyBook+'   | '+nameBook+'	| '+yearBook+'  | '+authorBook+'	| '+stockBook+'		| '+usedBook)
-				message = 'Jumlah Buku : '+str(len(data))+' | Buku Tersedia : '+str(totalAvailable)+' | Buku Dipinjam : '+str(totalBorrowed)
-				return message
+				return data

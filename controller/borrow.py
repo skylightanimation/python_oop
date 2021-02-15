@@ -1,11 +1,12 @@
+import datetime
 import sys
-system_path = '../system'
+
+system_path = 'system'
 sys.path.append(system_path)
 import helper
 from helper import *
 
-
-model_path = '../model'
+model_path = 'model'
 sys.path.append(model_path)
 import m_book
 from m_book import *
@@ -22,77 +23,35 @@ class Borrow(M_member, M_book):
 	# __v_action = Action()
 
 
-	def do(self):
-		dataMembers = self.__member.get()
-		if len(dataMembers) == 0:
-			message = 'data buku kosong...'
-			return message
-		else:
-			print(" ID	   | NAME		 |  BORROWED 	")
-			totalAvailable = 0
-			totalBorrowed = 0
-			for key in dataMembers:
-				keyMember = key
-				idMember = int(dataMembers[key]['id'])
-				nameMember = dataMembers[key]['name']
-				booksMember = dataMembers[key]['books']
-				print(keyMember+'   | '+nameMember+'	  | '+str(len(booksMember)))
-			message = 'Jumlah Member : '+str(len(dataMembers))
-			print(message)
+	def do(self, keyMember, dataMember, keyBook, dataBook):
 
-		key = input("Input 'ID' Member  : ")
-		dataBooks = self.__book.get()
-		print(dataBooks)
-		print(" ID	   | NAME		 | YEAR	| AUTHOR			")
-		
-		for key in dataBooks:
-			keyBook = key
+		if keyMember != '':
 
-			idMember = str(dataBooks[key]['id'])
-			nameBook = dataBooks[key]['title']
-			yearBook = dataBooks[key]['year']
-			authorBook = dataBooks[key]['author']
-			stockBook = dataBooks[key]['stock']
-			usedBook = dataBooks[key]['used']
+			getDate = datetime.datetime.now()
 
-			# keyBook = key
-			# idBook = int(dataMembers['id'])
-			# nameBook = dataMembers['title']
-			# yearBook = dataMembers['year']
-			# authorBook = data['author']
-			total = int(stockBook) + int(usedBook)
-			print(keyBook+'   | '+nameBook+'	| '+yearBook+'  | '+authorBook)
+			date = getDate.strftime('%Y-%m-%d')
+			idDate = getDate.strftime('%m%d')
 
+			dataInsert = {}
+			key = keyBook+idDate
+			dataInsert['id'] = idDate
+			dataInsert['title'] = dataBook['title']
+			dataInsert['author'] = dataBook['author']
+			dataInsert['date_out'] = date
+			dataInsert['date_in'] = '-'
+			dataInsert['status'] = 'false'
 
-		idMemberUpdate = input("Input 'ID' buku : ")
+			dataMember['books'][key] = dataInsert
+			dataUpdate = dataMember
 
-
-		idMember = str(dataBooks[idMemberUpdate]['id'])
-		nameBook = dataBooks[idMemberUpdate]['title']
-		yearBook = dataBooks[idMemberUpdate]['year']
-		authorBook = dataBooks[idMemberUpdate]['author']
-
-
-
-		if nameMemberUpdate != '':
-			
-			dataUpdate = {}
-			dataUpdate['id'] = str(idMember)
-			dataUpdate['name'] = idMember
-			dataUpdate['books'] = bookMember
-
-			# print(key)
-
-
-			self.__member.update(dataUpdate, key)
-			self.__member.update(dataUpdate, key)
+			self.__member.update(dataUpdate, keyMember)
 
 			return 'true'
 		else:
 			return 'false'
 
 	def re(self):
-		key = input("Input 'ID' Memer  : ")
+		key = input("Input 'ID' Member  : ")
 		data = self.__member.get()
 		if key in data:
 			idMember = str(data[key]['id'])
@@ -119,6 +78,8 @@ class Borrow(M_member, M_book):
 		else:
 			return 'false'
 
+	def test(self, data):
+		pass
 
-className = Borrow()
-className.do()
+# className = Borrow()
+# className.test()

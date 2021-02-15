@@ -39,7 +39,7 @@ class M_book(IGUD, Helper):
 
 
 	def get(self, key=None):
-		print(self.__table)		
+		# print(self.__table)		
 		data = getattr(self, '_'+self.__table)
 
 		if key != None:	

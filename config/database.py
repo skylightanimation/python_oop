@@ -37,11 +37,13 @@ class Database():
             'id'    : '2',
             'name'  : 'Roy',
             'books' : {
-               'BUK_3' : {
-                    'id':'3',
-                    'title'  :'A Gate of Night',
-                    'year'  :'2014',
-                    'author':'Bella Forrest',
+               'BUK_30201' : {
+                    'id'        : '0201',
+                    'title'     : 'A Gate of Night',
+                    'author'    : 'Bella Forrest',
+                    'date_out'  : '2021-02-01',
+                    'date_in'   : '2021-02-08',
+                    'status'    : 'true'
                 },
             },
         }, 
